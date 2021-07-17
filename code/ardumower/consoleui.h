@@ -272,7 +272,8 @@ void Robot::menu(){
    
        resetIdleTime();
     }
-    imu.update();
+    // imu.update();
+     if (imuUse) imu.update();
     if (Console.available() > 0) {
       ch = (char)Console.read();            
       switch (ch){
