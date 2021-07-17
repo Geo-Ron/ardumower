@@ -172,13 +172,14 @@ void Robot::motorControlPerimeter() {
   if ((millis() > stateStartTime + 10000) && (millis() > perimeterLastTransitionTime + trackingPerimeterTransitionTimeOut)) {
      
   	//If this condition is true one of the 2 wheels makes backward the other continues with the result of the PID (not advised)
+    // If block inner wheel is disabled, make the inner wheel run at 1/20th of the speed (less friction in grass)
 	  if (trackingBlockInnerWheelWhilePerimeterStruggling == 0) { //
       if (perimeterInside) {
         rightSpeedperi = max(-MaxSpeedperiPwm, min(MaxSpeedperiPwm, MaxSpeedperiPwm / 2  + perimeterPID.y));
-        leftSpeedperi = -MaxSpeedperiPwm / 2;
+        leftSpeedperi = rightSpeedperi / 20;
       }
       else {
-        rightSpeedperi = -MaxSpeedperiPwm / 2;
+        rightSpeedperi = leftSpeedperi / 20;
         leftSpeedperi = max(-MaxSpeedperiPwm, min(MaxSpeedperiPwm, MaxSpeedperiPwm / 2 - perimeterPID.y));
       }
     }
