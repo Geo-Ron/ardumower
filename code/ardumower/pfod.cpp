@@ -118,7 +118,7 @@ void RemoteControl::sendSlider(String cmd, String title, float value, String uni
 void RemoteControl::sendPIDSlider(String cmd, String title, PID &pid, double scale, float maxvalue){
   sendSlider(cmd + "p", title + "_P", pid.Kp, "", scale, maxvalue);
   sendSlider(cmd + "i", title + "_I", pid.Ki, "", scale, maxvalue);
-  sendSlider(cmd + "d", title + "_D", pid.Kd, "", scale, maxvalue);  
+  sendSlider(cmd + "d", title + "_D", pid.Kd, "", scale, maxvalue/10);  
 }
 
 void RemoteControl::processSlider(String result, float &value, double scale){
@@ -550,7 +550,7 @@ void RemoteControl::sendPerimeterMenu(boolean update){
 	serialPort->print(robot->perimeter.getSmoothMagnitude(0));
   serialPort->print(F("|e23~timeout "));
   serialPort->print(robot->perimeter.signalTimedOut(0));
-  sendSlider("e08", F("Timed-out if below smag"), robot->perimeter.timedOutIfBelowSmag, "", 1, 2000);  
+  sendSlider("e08", F("Timed-out if below smag"), robot->perimeter.timedOutIfBelowSmag, "", 1, 500);  
   sendSlider("e14", F("Timeout (s) if not inside"), robot->perimeter.timeOutSecIfNotInside, "", 1, 20, 1);  
   sendSlider("e04", F("Trigger timeout"), robot->perimeterTriggerTimeout, "", 1, 2000);
   sendSlider("e05", F("Perimeter out roll time max"), robot->perimeterOutRollTimeMax, "", 1, 8000);       
